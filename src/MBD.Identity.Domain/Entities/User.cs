@@ -1,11 +1,10 @@
-using MBD.Core;
-using MBD.Core.Entities;
 using MBD.Identity.Domain.Interfaces.Services;
 using MBD.Identity.Domain.ValueObjects;
+using MeuBolsoDigital.Core.Assertions;
 
 namespace MBD.Identity.Domain.Entities
 {
-    public class User : BaseEntity, IAggregateRoot
+    public class User : BaseEntity
     {
         public string Name { get; private set; }
         public Email Email { get; private set; }
@@ -13,8 +12,8 @@ namespace MBD.Identity.Domain.Entities
 
         public User(string name, string email, string password, IHashService hashService)
         {
-            Assertions.IsNotNullOrEmpty(name, "O nome não pode estar vazio ou nulo.");
-            Assertions.HasMaxLength(name, 100, "O nome não pode conter mais que 100 caracteres.");
+            DomainAssertions.IsNotNullOrEmpty(name, "O nome não pode estar vazio ou nulo.");
+            DomainAssertions.HasMaxLength(name, 100, "O nome não pode conter mais que 100 caracteres.");
 
             Name = name;
             SetEmail(email);

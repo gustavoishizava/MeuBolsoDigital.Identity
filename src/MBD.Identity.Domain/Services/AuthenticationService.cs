@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using MBD.Core.Data;
-using MBD.Core.DomainObjects;
 using MBD.Identity.Domain.Configuration;
 using MBD.Identity.Domain.Entities;
 using MBD.Identity.Domain.Interfaces.Repositories;
 using MBD.Identity.Domain.Interfaces.Services;
 using MBD.Identity.Domain.ValueObjects;
+using MeuBolsoDigital.Core.Exceptions;
 using Microsoft.Extensions.Options;
 using static MBD.Identity.Domain.ValueObjects.AccessTokenResponse;
 
@@ -21,15 +20,13 @@ namespace MBD.Identity.Domain.Services
         private readonly IJwtService _jwtService;
         private readonly IHashService _hashService;
         private readonly JwtConfiguration _jwtConfiguration;
-        private readonly IUnitOfWork _unitOfWork;
 
-        public AuthenticationService(IUserRepository userRepository, IJwtService jwtService, IHashService hashService, IOptions<JwtConfiguration> jwtConfiguration, IUnitOfWork unitOfWork)
+        public AuthenticationService(IUserRepository userRepository, IJwtService jwtService, IHashService hashService, IOptions<JwtConfiguration> jwtConfiguration)
         {
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
             _jwtService = jwtService ?? throw new ArgumentNullException(nameof(jwtService));
             _hashService = hashService ?? throw new ArgumentNullException(nameof(hashService));
             _jwtConfiguration = jwtConfiguration?.Value ?? throw new ArgumentNullException(nameof(jwtConfiguration));
-            _unitOfWork = unitOfWork;
         }
 
         public async Task<AccessTokenResponse> AuthenticateAsync(string email, string password)
@@ -45,7 +42,6 @@ namespace MBD.Identity.Domain.Services
                 return AccessTokenResponseFactory.Fail("E-mail e/ou senha incorreto(s).");
 
             var authenticationResponse = GenerateJwt(user);
-            await _unitOfWork.SaveChangesAsync();
 
             return authenticationResponse;
         }
@@ -68,7 +64,6 @@ namespace MBD.Identity.Domain.Services
 
             refreshToken.Revoke();
             var authenticationResponse = GenerateJwt(user);
-            await _unitOfWork.SaveChangesAsync();
 
             return authenticationResponse;
         }

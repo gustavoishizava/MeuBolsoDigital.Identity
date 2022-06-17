@@ -1,6 +1,5 @@
 using System.Net.Mime;
 using System.Threading.Tasks;
-using MBD.Application.Core.Response;
 using MBD.Identity.Application.Interfaces;
 using MBD.Identity.Application.Requests;
 using Microsoft.AspNetCore.Authorization;

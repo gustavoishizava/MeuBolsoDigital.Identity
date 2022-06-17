@@ -1,10 +1,10 @@
 using System.Threading.Tasks;
 using Bogus;
-using MBD.Core.Data;
 using MBD.Identity.Domain.Entities;
 using MBD.Identity.Domain.Interfaces.Repositories;
 using MBD.Identity.Domain.Services;
 using MBD.Identity.Infrastructure.Services;
+using MeuBolsoDigital.Core.Interfaces.Repositories;
 using Moq;
 using Moq.AutoMock;
 using Xunit;
@@ -50,7 +50,7 @@ namespace MBD.Identity.Unit.Tests.unit_tests.Services
                 .Verify(method => method.Add(It.IsAny<User>()), Times.Once);
 
             _mocker.GetMock<IUnitOfWork>()
-                .Verify(method => method.SaveChangesAsync(), Times.Once);
+                .Verify(method => method.CommitAsync(), Times.Once);
         }
 
         [Fact(DisplayName = "Criar novo usuário com e-mail já cadastrado deve retornar falha.")]
@@ -79,7 +79,7 @@ namespace MBD.Identity.Unit.Tests.unit_tests.Services
                 .Verify(method => method.Add(It.IsAny<User>()), Times.Never);
 
             _mocker.GetMock<IUnitOfWork>()
-                .Verify(method => method.SaveChangesAsync(), Times.Never);
+                .Verify(method => method.CommitAsync(), Times.Never);
         }
     }
 }

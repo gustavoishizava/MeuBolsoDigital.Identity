@@ -1,6 +1,5 @@
 using FluentValidation;
 using FluentValidation.Results;
-using MBD.Application.Core.Requests;
 
 namespace MBD.Identity.Application.Requests
 {

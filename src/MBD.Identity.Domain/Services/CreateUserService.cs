@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using MBD.Core.Data;
 using MBD.Identity.Domain.Entities;
 using MBD.Identity.Domain.Interfaces.Repositories;
 using MBD.Identity.Domain.Interfaces.Services;
@@ -12,13 +11,11 @@ namespace MBD.Identity.Domain.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IHashService _hashService;
-        private readonly IUnitOfWork _unitOfWork;
 
-        public CreateUserService(IUserRepository userRepository, IHashService hashService, IUnitOfWork unitOfWork)
+        public CreateUserService(IUserRepository userRepository, IHashService hashService)
         {
             _userRepository = userRepository;
             _hashService = hashService;
-            _unitOfWork = unitOfWork;
         }
 
         public async Task<CreateUserResult> CreateAsync(string name, string email, string password)
@@ -29,7 +26,6 @@ namespace MBD.Identity.Domain.Services
                 return CreateUserResultFactory.Fail($"Já existe um usuário com o e-mail '{email}'.");
 
             _userRepository.Add(user);
-            await _unitOfWork.SaveChangesAsync();
 
             return CreateUserResultFactory.Success("Usuário criado com sucesso.");
         }

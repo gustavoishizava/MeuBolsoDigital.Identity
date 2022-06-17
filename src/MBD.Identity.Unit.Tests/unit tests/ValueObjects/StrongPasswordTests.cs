@@ -1,8 +1,8 @@
 using System;
-using MBD.Core.DomainObjects;
 using MBD.Identity.Domain.Interfaces.Services;
 using MBD.Identity.Domain.ValueObjects;
 using MBD.Identity.Infrastructure.Services;
+using MeuBolsoDigital.Core.Exceptions;
 using Xunit;
 
 namespace MBD.Identity.Unit.Tests.unit_tests.ValueObjects

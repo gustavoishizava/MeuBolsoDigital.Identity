@@ -1,7 +1,7 @@
 using System;
-using MBD.Core;
-using MBD.Core.Constants;
+using MBD.Identity.Domain.Constants;
 using MBD.Identity.Domain.Interfaces.Services;
+using MeuBolsoDigital.Core.Assertions;
 
 namespace MBD.Identity.Domain.ValueObjects
 {
@@ -24,7 +24,7 @@ namespace MBD.Identity.Domain.ValueObjects
             if (string.IsNullOrEmpty(password) || string.IsNullOrWhiteSpace(password))
                 throw new ArgumentNullException(nameof(password), "Password cannot be null or empty.");
 
-            Assertions.ArgumentMatches(RegularExpressions.StrongPassword, password, "Weak password.");
+            DomainAssertions.ArgumentMatches(RegularExpressions.StrongPassword, password, "Weak password.");
 
             PasswordHash = hashService.Create(password);
         }

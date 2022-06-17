@@ -1,5 +1,4 @@
 using System;
-using MBD.Core.Entities;
 
 namespace MBD.Identity.Domain.Entities
 {
@@ -25,7 +24,7 @@ namespace MBD.Identity.Domain.Entities
 
         public void Revoke()
         {
-            if(IsRevoked)
+            if (IsRevoked)
                 return;
 
             RevokedOn = DateTime.Now;

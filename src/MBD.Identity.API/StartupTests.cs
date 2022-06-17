@@ -1,7 +1,6 @@
 using MBD.Identity.API.Configuration;
 using MBD.Identity.Domain.Entities;
 using MBD.Identity.Domain.Interfaces.Services;
-using MBD.Identity.Infrastructure.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;

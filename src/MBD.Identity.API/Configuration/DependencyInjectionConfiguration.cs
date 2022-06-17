@@ -1,11 +1,8 @@
-using MBD.Core.Data;
 using MBD.Identity.Application.Interfaces;
 using MBD.Identity.Application.Services;
 using MBD.Identity.Domain.Interfaces.Repositories;
 using MBD.Identity.Domain.Interfaces.Services;
 using MBD.Identity.Domain.Services;
-using MBD.Identity.Infrastructure;
-using MBD.Identity.Infrastructure.Repositories;
 using MBD.Identity.Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
 

@@ -1,6 +1,5 @@
 using System.Net.Mime;
 using System.Threading.Tasks;
-using MBD.Application.Core.Response;
 using MBD.Identity.Application.Interfaces;
 using MBD.Identity.Application.Requests;
 using MBD.Identity.Application.Responses;
@@ -30,9 +29,9 @@ namespace MBD.Identity.API.Controllers
         public async Task<IActionResult> Authenticate([FromBody] AuthenticateRequest request)
         {
             var response = await _service.AuthenticateAsync(request);
-            if(!response.Succeeded)
+            if (!response.Succeeded)
                 return BadRequest(response);
-            
+
             return Ok(response.Data);
         }
 
@@ -43,9 +42,9 @@ namespace MBD.Identity.API.Controllers
         public async Task<IActionResult> Refresh([FromBody] RefreshTokenRequest request)
         {
             var response = await _service.RefreshTokenAsync(request);
-            if(!response.Succeeded)
+            if (!response.Succeeded)
                 return BadRequest(response);
-            
+
             return Ok(response.Data);
         }
     }

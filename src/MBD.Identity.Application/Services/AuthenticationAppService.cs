@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using MBD.Application.Core.Response;
 using MBD.Identity.Application.Interfaces;
 using MBD.Identity.Application.Requests;
 using MBD.Identity.Application.Responses;

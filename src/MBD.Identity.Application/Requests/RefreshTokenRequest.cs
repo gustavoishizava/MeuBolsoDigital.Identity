@@ -1,26 +1,24 @@
 using System;
 using FluentValidation;
 using FluentValidation.Results;
-using MBD.Application.Core.Requests;
 
-namespace MBD.Identity.Application.Requests
+namespace MBD.Identity.Application.Requests;
+
+public class RefreshTokenRequest : BaseRequest
 {
-    public class RefreshTokenRequest : BaseRequest
+    public Guid RefreshToken { get; set; }
+
+    public override ValidationResult Validate()
     {
-        public Guid RefreshToken { get; set; }
+        return new RefreshTokenValidation().Validate(this);
+    }
 
-        public override ValidationResult Validate()
+    public class RefreshTokenValidation : AbstractValidator<RefreshTokenRequest>
+    {
+        public RefreshTokenValidation()
         {
-            return new RefreshTokenValidation().Validate(this);
-        }
-
-        public class RefreshTokenValidation : AbstractValidator<RefreshTokenRequest>
-        {
-            public RefreshTokenValidation()
-            {
-                RuleFor(x => x.RefreshToken)
-                    .NotEmpty();
-            }
+            RuleFor(x => x.RefreshToken)
+                .NotEmpty();
         }
     }
 }

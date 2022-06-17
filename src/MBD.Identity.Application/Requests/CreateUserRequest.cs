@@ -1,42 +1,40 @@
 using FluentValidation;
 using FluentValidation.Results;
-using MBD.Application.Core.Requests;
-using MBD.Core.Constants;
+using MBD.Identity.Domain.Constants;
 
-namespace MBD.Identity.Application.Requests
+namespace MBD.Identity.Application.Requests;
+
+public class CreateUserRequest : BaseRequest
 {
-    public class CreateUserRequest : BaseRequest
+    public string Name { get; set; }
+    public string Email { get; set; }
+    public string Password { get; set; }
+    public string RepeatPassword { get; set; }
+
+    public override ValidationResult Validate()
     {
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public string RepeatPassword { get; set; }
+        return new CreateUserValidation().Validate(this);
+    }
 
-        public override ValidationResult Validate()
+    public class CreateUserValidation : AbstractValidator<CreateUserRequest>
+    {
+        public CreateUserValidation()
         {
-            return new CreateUserValidation().Validate(this);
-        }
+            RuleFor(x => x.Name)
+                .NotEmpty()
+                .MaximumLength(100);
 
-        public class CreateUserValidation : AbstractValidator<CreateUserRequest>
-        {
-            public CreateUserValidation()
-            {
-                RuleFor(x => x.Name)
-                    .NotEmpty()
-                    .MaximumLength(100);
+            RuleFor(x => x.Email)
+                .NotEmpty()
+                .EmailAddress();
 
-                RuleFor(x => x.Email)
-                    .NotEmpty()
-                    .EmailAddress();
+            RuleFor(x => x.Password)
+                .NotEmpty()
+                .Matches(RegularExpressions.StrongPassword)
+                .Equal(x => x.RepeatPassword);
 
-                RuleFor(x => x.Password)
-                    .NotEmpty()
-                    .Matches(RegularExpressions.StrongPassword)
-                    .Equal(x => x.RepeatPassword);
-
-                RuleFor(x => x.RepeatPassword)
-                    .NotEmpty();
-            }
+            RuleFor(x => x.RepeatPassword)
+                .NotEmpty();
         }
     }
 }
