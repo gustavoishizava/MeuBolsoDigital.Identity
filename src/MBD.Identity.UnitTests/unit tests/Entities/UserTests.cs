@@ -6,7 +6,7 @@ using MBD.Identity.Infrastructure.Services;
 using MeuBolsoDigital.Core.Exceptions;
 using Xunit;
 
-namespace MBD.Identity.Unit.Tests.unit_tests.Entities
+namespace MBD.Identity.UnitTests.unit_tests.Entities
 {
     public class UserTests
     {

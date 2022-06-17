@@ -13,7 +13,7 @@ using Moq;
 using Moq.AutoMock;
 using Xunit;
 
-namespace MBD.Identity.Unit.Tests.unit_tests.Services
+namespace MBD.Identity.UnitTests.unit_tests.Services
 {
     public class AuthenticationServiceTests
     {
