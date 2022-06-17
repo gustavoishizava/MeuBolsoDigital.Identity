@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -13,9 +12,6 @@ namespace MBD.Identity.API
 
             using var serviceScope = host.Services.CreateScope();
             var service = serviceScope.ServiceProvider;
-            var context = service.GetRequiredService<IdentityContext>();
-
-            context.Database.Migrate();
 
             host.Run();
         }

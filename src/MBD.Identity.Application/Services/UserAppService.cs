@@ -2,6 +2,8 @@ using System.Threading.Tasks;
 using MBD.Identity.Application.Interfaces;
 using MBD.Identity.Application.Requests;
 using MBD.Identity.Domain.Interfaces.Services;
+using MeuBolsoDigital.Application.Utils.Responses;
+using MeuBolsoDigital.Application.Utils.Responses.Interfaces;
 
 namespace MBD.Identity.Application.Services
 {

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using MBD.Identity.Application.Interfaces;
 using MBD.Identity.Application.Requests;
 using MBD.Identity.Application.Responses;
+using MeuBolsoDigital.Application.Utils.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

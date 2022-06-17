@@ -8,8 +8,7 @@ namespace MBD.Identity.API.Configuration
     {
         public static IServiceCollection AddHealthCheckConfiguration(this IServiceCollection services)
         {
-            services.AddHealthChecks()
-                .AddDbContextCheck<IdentityContext>();
+            services.AddHealthChecks();
 
             return services;
         }

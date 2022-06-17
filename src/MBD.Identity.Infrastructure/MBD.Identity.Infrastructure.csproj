@@ -1,8 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
     <ProjectReference Include="..\MBD.Identity.Domain\MBD.Identity.Domain.csproj" />
-    <ProjectReference Include="..\..\..\Building blocks\Core\MBD.Core\MBD.Core.csproj" />
-    <ProjectReference Include="..\..\..\Building blocks\Core\MBD.Infrastructure.Core\MBD.Infrastructure.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.2" />
