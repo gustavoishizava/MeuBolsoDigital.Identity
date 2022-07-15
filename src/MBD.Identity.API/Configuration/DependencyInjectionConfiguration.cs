@@ -1,7 +1,9 @@
 using MBD.Identity.Application.Interfaces;
 using MBD.Identity.Application.Services;
+using MBD.Identity.Domain.Interfaces.Repositories;
 using MBD.Identity.Domain.Interfaces.Services;
 using MBD.Identity.Domain.Services;
+using MBD.Identity.Infrastructure.Repositories;
 using MBD.Identity.Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -45,6 +47,8 @@ namespace MBD.Identity.API.Configuration
 
         private static IServiceCollection AddRepositories(this IServiceCollection services)
         {
+            services.AddScoped<IUserRepository, UserRepository>();
+
             return services;
         }
     }
