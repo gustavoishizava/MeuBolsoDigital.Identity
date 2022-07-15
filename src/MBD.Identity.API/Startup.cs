@@ -24,7 +24,7 @@ namespace MBD.Identity.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddEFContextConfiguration(Configuration);
+            services.AddDatabaseConfiguration(Configuration);
             services.AddHealthCheckConfiguration();
             services.AddJwtConfiguration(Configuration);
             services.AddApiConfiguration();
