@@ -8,7 +8,7 @@ using Moq;
 using Moq.AutoMock;
 using Xunit;
 
-namespace MBD.Identity.UnitTests.unit_tests.Services
+namespace MBD.Identity.UnitTests.Domain.Services
 {
     public class CreateUserServiceTests
     {

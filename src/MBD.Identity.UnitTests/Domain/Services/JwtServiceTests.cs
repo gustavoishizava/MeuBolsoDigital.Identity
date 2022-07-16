@@ -8,7 +8,7 @@ using Xunit;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 
-namespace MBD.Identity.UnitTests.unit_tests.Services
+namespace MBD.Identity.UnitTests.Domain.Services
 {
     public class JwtServiceTests
     {

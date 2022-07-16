@@ -2,7 +2,7 @@ using System;
 using MBD.Identity.Domain.ValueObjects;
 using Xunit;
 
-namespace MBD.Identity.UnitTests.unit_tests.ValueObjects
+namespace MBD.Identity.UnitTests.Domain.ValueObjects
 {
     public class EmailTests
     {
