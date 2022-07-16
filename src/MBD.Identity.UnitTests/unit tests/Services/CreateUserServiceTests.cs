@@ -46,7 +46,7 @@ namespace MBD.Identity.UnitTests.unit_tests.Services
                 .Verify(method => method.GetByEmailAsync(It.IsAny<string>()), Times.Once);
 
             _mocker.GetMock<IUserRepository>()
-                .Verify(method => method.Add(It.IsAny<User>()), Times.Once);
+                .Verify(method => method.AddAsync(It.IsAny<User>()), Times.Once);
         }
 
         [Fact(DisplayName = "Criar novo usuário com e-mail já cadastrado deve retornar falha.")]
@@ -72,7 +72,7 @@ namespace MBD.Identity.UnitTests.unit_tests.Services
                 .Verify(method => method.GetByEmailAsync(It.IsAny<string>()), Times.Once);
 
             _mocker.GetMock<IUserRepository>()
-                .Verify(method => method.Add(It.IsAny<User>()), Times.Never);
+                .Verify(method => method.AddAsync(It.IsAny<User>()), Times.Never);
         }
     }
 }

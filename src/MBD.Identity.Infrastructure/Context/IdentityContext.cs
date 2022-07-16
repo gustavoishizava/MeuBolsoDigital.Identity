@@ -1,11 +1,8 @@
-using System;
 using DotNet.MongoDB.Context.Configuration;
 using DotNet.MongoDB.Context.Context;
 using DotNet.MongoDB.Context.Context.ModelConfiguration;
 using MBD.Identity.Domain.Entities;
 using MBD.Identity.Domain.ValueObjects;
-using MongoDB.Bson.Serialization;
-using MongoDB.Bson.Serialization.Serializers;
 
 namespace MBD.Identity.Infrastructure.Context
 {

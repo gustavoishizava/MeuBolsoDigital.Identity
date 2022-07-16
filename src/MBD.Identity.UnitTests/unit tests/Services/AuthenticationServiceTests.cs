@@ -7,7 +7,6 @@ using MBD.Identity.Domain.Interfaces.Repositories;
 using MBD.Identity.Domain.Interfaces.Services;
 using MBD.Identity.Domain.Services;
 using MBD.Identity.Infrastructure.Services;
-using MeuBolsoDigital.Core.Exceptions;
 using Microsoft.Extensions.Options;
 using Moq;
 using Moq.AutoMock;
@@ -33,7 +32,7 @@ namespace MBD.Identity.UnitTests.unit_tests.Services
             _mocker.Use<IOptions<JwtConfiguration>>(
                 Options.Create(
                     _jwtConfiguration = new JwtConfiguration { Secret = secret.ToString(), Audience = "TEST", Issuer = "TEST", ExpiresInSeconds = 10, RefreshExpiresInSeconds = 15 }));
-            _authenticationService = _mocker.CreateInstance<AuthenticationService>();
+            _authenticationService = _mocker.CreateInstance<AuthenticationService>(); ;
 
             _validEmail = "gustavo@gmail.com";
             _validPassword = "P@ssw0rd!";
@@ -52,7 +51,6 @@ namespace MBD.Identity.UnitTests.unit_tests.Services
 
             // Assert
             _mocker.GetMock<IUserRepository>().Verify(repository => repository.GetByEmailAsync(_validEmail), Times.Once);
-            _mocker.GetMock<IUserRepository>().Verify(repository => repository.AddRefreshToken(It.IsAny<RefreshToken>()), Times.Once);
 
             Assert.False(accessTokenResponse.HasErrors);
             Assert.NotEmpty(accessTokenResponse.AccessToken);
@@ -76,65 +74,79 @@ namespace MBD.Identity.UnitTests.unit_tests.Services
 
             // Assert
             _mocker.GetMock<IUserRepository>().Verify(repository => repository.GetByEmailAsync(email), string.IsNullOrEmpty(email) ? Times.Never : Times.Once);
-            _mocker.GetMock<IUserRepository>().Verify(repository => repository.AddRefreshToken(It.IsAny<RefreshToken>()), Times.Never);
 
             Assert.True(accessTokenResponse.HasErrors);
         }
 
-        [Fact(DisplayName = "Renovar token com refresh token inválido.")]
-        public async Task InvalidToken_RefreshToken_ReturnError()
+        [Theory]
+        [InlineData("")]
+        [InlineData(null)]
+        public async Task RefreshTokenIsNullOrEmpty_ReturnFail(string refreshtoken)
         {
-            // Arrange
-            var validRefreshToken = _existingUser.CreateRefreshToken(3600);
-            var expiredRefreshToken = _existingUser.CreateRefreshToken(0);
-            var revokedRefreshToken = _existingUser.CreateRefreshToken(3600);
-            revokedRefreshToken.Revoke();
-
-            _mocker.GetMock<IUserRepository>().Setup(method => method.GetByIdAsync(_existingUser.Id)).ReturnsAsync(_existingUser);
-            _mocker.GetMock<IUserRepository>().Setup(method => method.GetRefreshTokenByToken(validRefreshToken.Token)).ReturnsAsync(validRefreshToken);
-            _mocker.GetMock<IUserRepository>().Setup(method => method.GetRefreshTokenByToken(expiredRefreshToken.Token)).ReturnsAsync(expiredRefreshToken);
-            _mocker.GetMock<IUserRepository>().Setup(method => method.GetRefreshTokenByToken(revokedRefreshToken.Token)).ReturnsAsync(revokedRefreshToken);
-
             // Act
-            var emptyGuidAuthenticationResponse = await _authenticationService.AuthenticateByRefreshTokenAsync(Guid.Empty);
-            var invalidGuidAuthenticationResponse = await _authenticationService.AuthenticateByRefreshTokenAsync(Guid.NewGuid());
-            var expiredRefreshTokenAuthenticationResponse = await _authenticationService.AuthenticateByRefreshTokenAsync(expiredRefreshToken.Token);
-            var revokedRefreshTokenAuthenticationResponse = await _authenticationService.AuthenticateByRefreshTokenAsync(revokedRefreshToken.Token);
+            var result = await _authenticationService.AuthenticateByRefreshTokenAsync(refreshtoken);
 
             // Assert
-            Assert.True(emptyGuidAuthenticationResponse.HasErrors);
-            Assert.True(invalidGuidAuthenticationResponse.HasErrors);
-            Assert.True(revokedRefreshTokenAuthenticationResponse.HasErrors);
-            Assert.True(expiredRefreshTokenAuthenticationResponse.HasErrors);
+            Assert.True(result.HasErrors);
+            Assert.Equal("Este token não está mais válido.", result.Error);
+            _mocker.GetMock<IUserRepository>().Verify(repository => repository.GetByEmailAsync(It.IsAny<string>()), Times.Never);
         }
 
-        [Fact(DisplayName = "Tentativa de gerar um token com um refresh token válido mas com usuário inexistente.")]
-        public async Task InvalidUser_RefreshToken_ReturnDomainException()
+        [Fact]
+        public async Task InvalidRefreshToken_ReturnFail()
         {
             // Arrange
-            var validRefreshToken = _existingUser.CreateRefreshToken(3600);
-
-            _mocker.GetMock<IUserRepository>().Setup(method => method.GetByIdAsync(_existingUser.Id)).ReturnsAsync((User)null);
-            _mocker.GetMock<IUserRepository>().Setup(method => method.GetRefreshTokenByToken(validRefreshToken.Token)).ReturnsAsync(validRefreshToken);
-
-            // Act && Assert
-            await Assert.ThrowsAsync<DomainException>(() => _authenticationService.AuthenticateByRefreshTokenAsync(validRefreshToken.Token));
-        }
-
-        [Fact(DisplayName = "Renovar token com refresh token válido.")]
-        public async Task ValidToken_RefreshToken_ReturnSuccess()
-        {
-            // Arrange
-            var validRefreshToken = _existingUser.CreateRefreshToken(3600);
-
-            _mocker.GetMock<IUserRepository>().Setup(method => method.GetByIdAsync(_existingUser.Id)).ReturnsAsync(_existingUser);
-            _mocker.GetMock<IUserRepository>().Setup(method => method.GetRefreshTokenByToken(validRefreshToken.Token)).ReturnsAsync(validRefreshToken);
+            var refreshToken = Guid.NewGuid().ToString();
 
             // Act
-            var refreshTokenAuthenticationResponse = await _authenticationService.AuthenticateByRefreshTokenAsync(validRefreshToken.Token);
+            var result = await _authenticationService.AuthenticateByRefreshTokenAsync(refreshToken);
 
             // Assert
-            Assert.False(refreshTokenAuthenticationResponse.HasErrors);
+            Assert.True(result.HasErrors);
+            Assert.Equal("Este token não está mais válido.", result.Error);
+            _mocker.GetMock<IUserRepository>().Verify(repository => repository.GetByEmailAsync(It.IsAny<string>()), Times.Never);
+        }
+
+        [Fact]
+        public async Task InvalidEmail_ReturnFail()
+        {
+            // Arrange
+            _mocker.GetMock<IUserRepository>().Setup(method => method.GetByEmailAsync(_validEmail)).ReturnsAsync(_existingUser);
+            var authResponse = await _authenticationService.AuthenticateAsync(_validEmail, _validPassword);
+
+            _mocker.GetMock<IUserRepository>()
+                .Setup(x => x.GetByEmailAsync(_validEmail.ToUpper()))
+                .ReturnsAsync((User)null);
+
+            // Act
+            var result = await _authenticationService.AuthenticateByRefreshTokenAsync(authResponse.RefreshToken);
+
+            // Assert
+            Assert.True(result.HasErrors);
+            Assert.Equal("Este token não está mais válido.", result.Error);
+            _mocker.GetMock<IUserRepository>().Verify(repository => repository.GetByEmailAsync(It.IsAny<string>()), Times.AtLeastOnce);
+        }
+
+        [Fact]
+        public async Task ValidRefreshToken_ReturnSuccess()
+        {
+            // Arrange
+            var currentDate = DateTime.Now;
+            _mocker.GetMock<IUserRepository>().Setup(method => method.GetByEmailAsync(_validEmail)).ReturnsAsync(_existingUser);
+            var authResponse = await _authenticationService.AuthenticateAsync(_validEmail, _validPassword);
+            _mocker.GetMock<IUserRepository>().Setup(method => method.GetByEmailAsync(_validEmail.ToUpper())).ReturnsAsync(_existingUser);
+
+            // Act
+            var result = await _authenticationService.AuthenticateByRefreshTokenAsync(authResponse.RefreshToken);
+
+            // Assert
+            Assert.False(result.HasErrors);
+            Assert.NotEmpty(result.AccessToken);
+            Assert.NotEmpty(result.RefreshToken);
+            Assert.True(result.CreatedAt >= currentDate);
+            Assert.Equal(_jwtConfiguration.ExpiresInSeconds, result.ExpiresIn);
+
+            _mocker.GetMock<IUserRepository>().Verify(repository => repository.GetByEmailAsync(_validEmail.ToUpper()), Times.AtLeastOnce);
         }
     }
 }

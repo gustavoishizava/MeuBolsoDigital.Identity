@@ -1,5 +1,4 @@
 using System;
-using System.Threading;
 using MBD.Identity.Domain.Entities;
 using MBD.Identity.Domain.Interfaces.Services;
 using MBD.Identity.Infrastructure.Services;
@@ -52,56 +51,6 @@ namespace MBD.Identity.UnitTests.unit_tests.Entities
             Assert.Equal(email, user.Email.Address);
             Assert.Equal(normalizedEmail, user.Email.NormalizedAddress);
             Assert.True(_hashService.IsMatch(password, user.Password.PasswordHash));
-        }
-
-        [Fact(DisplayName = "Gerar um refresh token para um usuário válido.")]
-        public void ValidUser_CreateRefreshToken_ReturnSuccess()
-        {
-            // Arrange
-            int expiresIn = 3600;
-
-            // Act
-            var refreshToken = _validUser.CreateRefreshToken(expiresIn);
-
-            // Assert
-            Assert.Equal(refreshToken.UserId, _validUser.Id);
-            Assert.Equal(refreshToken.CreatedAt.AddSeconds(expiresIn), refreshToken.ExpiresAt);
-            Assert.False(refreshToken.IsExpired);
-        }
-
-        [Fact(DisplayName = "Revogar token válido.")]
-        public void ValidRefreshToken_Revoke_ReturnSucess()
-        {
-            // Arrange
-            var refreshToken = _validUser.CreateRefreshToken(3600);
-            var isRevoked = refreshToken.IsRevoked;
-            var revokedOn = refreshToken.RevokedOn;
-
-            // Act
-            refreshToken.Revoke();
-
-            // Assert
-            Assert.NotNull(refreshToken.RevokedOn);
-            Assert.NotEqual(revokedOn, refreshToken.RevokedOn);
-            Assert.True(refreshToken.IsRevoked);
-            Assert.NotEqual(isRevoked, refreshToken.IsRevoked);
-            Assert.False(refreshToken.IsValid);
-        }
-
-        [Fact(DisplayName = "Revogar um token já revogado não deve alterar a data de revogação novamente.")]
-        public void RevokedRefreshToken_Revoke_NothingChanges()
-        {
-            // Arrange
-            var refreshToken = _validUser.CreateRefreshToken(3600);
-            refreshToken.Revoke();
-            var revokedOn = refreshToken.RevokedOn;
-
-            // Act
-            Thread.Sleep(1000);
-            refreshToken.Revoke();
-
-            // Assert
-            Assert.Equal(revokedOn, refreshToken.RevokedOn);
         }
     }
 }

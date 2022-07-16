@@ -1,8 +1,10 @@
+using System.Linq;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using MBD.Identity.Domain.Interfaces.Services;
+using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 
 namespace MBD.Identity.Infrastructure.Services
@@ -31,6 +33,27 @@ namespace MBD.Identity.Infrastructure.Services
             var tokenHandler = new JwtSecurityTokenHandler();
             var securityToken = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(securityToken);
-        }        
+        }
+
+        public string GetEmail(string token)
+        {
+            var tokenHandler = new JsonWebTokenHandler();
+            var result = tokenHandler.ReadJsonWebToken(token);
+            return result.Claims.FirstOrDefault(x => x.Type == System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Email)?.Value;
+        }
+
+        public bool IsValid(string token, string issuer, string audience)
+        {
+            var tokenHandler = new JsonWebTokenHandler();
+            var result = tokenHandler.ValidateToken(token, new TokenValidationParameters()
+            {
+                ValidIssuer = issuer,
+                ValidAudience = audience,
+                RequireSignedTokens = false,
+                IssuerSigningKey = _symmetricSecurityKey,
+            });
+
+            return result.IsValid;
+        }
     }
 }

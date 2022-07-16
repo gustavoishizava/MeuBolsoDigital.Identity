@@ -1,4 +1,3 @@
-using System;
 using FluentValidation;
 using FluentValidation.Results;
 
@@ -6,7 +5,7 @@ namespace MBD.Identity.Application.Requests;
 
 public class RefreshTokenRequest : BaseRequest
 {
-    public Guid RefreshToken { get; set; }
+    public string RefreshToken { get; set; }
 
     public override ValidationResult Validate()
     {

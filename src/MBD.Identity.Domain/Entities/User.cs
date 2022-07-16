@@ -22,9 +22,7 @@ namespace MBD.Identity.Domain.Entities
 
         #region EF
         protected User() { }
-        #endregion
-
-        #region User        
+        #endregion  
 
         public void SetEmail(string email)
         {
@@ -35,16 +33,5 @@ namespace MBD.Identity.Domain.Entities
         {
             Password = new StrongPassword(password, hashService);
         }
-
-        #endregion
-
-        #region Refresh token
-
-        public RefreshToken CreateRefreshToken(int expiresIn = 3600)
-        {
-            return new RefreshToken(Id, expiresIn);
-        }
-
-        #endregion
     }
 }

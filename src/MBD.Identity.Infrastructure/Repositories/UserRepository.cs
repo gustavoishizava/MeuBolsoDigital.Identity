@@ -16,14 +16,9 @@ namespace MBD.Identity.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task Add(User user)
+        public async Task AddAsync(User user)
         {
             await _context.Users.AddAsync(user);
-        }
-
-        public void AddRefreshToken(RefreshToken refreshToken)
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<User> GetByEmailAsync(string email)
@@ -36,11 +31,6 @@ namespace MBD.Identity.Infrastructure.Repositories
         {
             return await _context.Users.Collection.Find(x => x.Id == id)
                                                   .FirstOrDefaultAsync();
-        }
-
-        public Task<RefreshToken> GetRefreshTokenByToken(Guid token)
-        {
-            throw new NotImplementedException();
         }
     }
 }

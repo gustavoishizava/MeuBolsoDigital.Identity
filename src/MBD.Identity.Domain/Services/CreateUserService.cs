@@ -25,7 +25,7 @@ namespace MBD.Identity.Domain.Services
             if (!await CheckIfEmailIsAvailableAsync(user.Email))
                 return CreateUserResultFactory.Fail($"Já existe um usuário com o e-mail '{email}'.");
 
-            await _userRepository.Add(user);
+            await _userRepository.AddAsync(user);
 
             return CreateUserResultFactory.Success("Usuário criado com sucesso.");
         }

@@ -6,6 +6,7 @@ using MBD.Identity.Infrastructure.Services;
 using Microsoft.IdentityModel.Tokens;
 using Xunit;
 using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace MBD.Identity.UnitTests.unit_tests.Services
 {
@@ -33,6 +34,82 @@ namespace MBD.Identity.UnitTests.unit_tests.Services
             // Assert
             Assert.NotEmpty(jwtGenerated);
             Assert.NotNull(jwtGenerated);
+        }
+
+        [Fact]
+        public void Validate_ReturnTrue()
+        {
+            // Arrange
+            var issuer = "Service";
+            var audience = "Test";
+            var dateNow = DateTime.Now;
+            var expiresAt = dateNow.AddHours(1);
+
+            var token = _jwtService.Generate(issuer, audience, DateTime.Now, expiresAt, new List<Claim>());
+
+            // Act
+            var isValid = _jwtService.IsValid(token, issuer, audience);
+
+            // Assert
+            Assert.True(isValid);
+        }
+
+        [Fact]
+        public void Validate_ReturnFalse()
+        {
+            // Arrange
+            var issuer = "Service";
+            var audience = "Test";
+            var dateNow = DateTime.Now;
+            var expiresAt = dateNow.AddHours(1);
+
+            var token = _jwtService.Generate(issuer, audience, DateTime.Now, expiresAt, new List<Claim>());
+
+            // Act
+            var isValid = _jwtService.IsValid(token, "Service2", "Test2");
+
+            // Assert
+            Assert.False(isValid);
+        }
+
+        [Fact]
+        public void GetEmail_ReturnEmail()
+        {
+            // Arrange
+            var issuer = "Service";
+            var audience = "Test";
+            var dateNow = DateTime.Now;
+            var expiresAt = dateNow.AddHours(1);
+            var expectedEmail = "gustavo@gmail.com";
+
+            var token = _jwtService.Generate(issuer, audience, DateTime.Now, expiresAt, new List<Claim>()
+            {
+                new Claim(JwtRegisteredClaimNames.Email, expectedEmail)
+            });
+
+            // Act
+            var email = _jwtService.GetEmail(token);
+
+            // Assert
+            Assert.Equal(expectedEmail, email);
+        }
+
+        [Fact]
+        public void GetEmail_ClaimNotExists_ReturnNull()
+        {
+            // Arrange
+            var issuer = "Service";
+            var audience = "Test";
+            var dateNow = DateTime.Now;
+            var expiresAt = dateNow.AddHours(1);
+
+            var token = _jwtService.Generate(issuer, audience, DateTime.Now, expiresAt, new List<Claim>());
+
+            // Act
+            var email = _jwtService.GetEmail(token);
+
+            // Assert
+            Assert.Null(email);
         }
     }
 }

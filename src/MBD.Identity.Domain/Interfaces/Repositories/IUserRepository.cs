@@ -8,8 +8,6 @@ namespace MBD.Identity.Domain.Interfaces.Repositories
     {
         Task<User> GetByEmailAsync(string email);
         Task<User> GetByIdAsync(Guid id);
-        Task<RefreshToken> GetRefreshTokenByToken(Guid token);
-        Task Add(User user);
-        void AddRefreshToken(RefreshToken refreshToken);
+        Task AddAsync(User user);
     }
 }
