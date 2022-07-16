@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using DotNet.MongoDB.Context.Extensions;
 using MBD.Identity.Infrastructure.Context;
 using Microsoft.Extensions.Configuration;
@@ -7,6 +8,7 @@ using MongoDB.Bson.Serialization.Serializers;
 
 namespace MBD.Identity.API.Configuration
 {
+    [ExcludeFromCodeCoverageAttribute]
     public static class DatabaseConfiguration
     {
         public static IServiceCollection AddDatabaseConfiguration(this IServiceCollection services, IConfiguration configuration)

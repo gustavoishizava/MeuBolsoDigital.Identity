@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using DotNet.MongoDB.Context.Configuration;
 using DotNet.MongoDB.Context.Context;
 using DotNet.MongoDB.Context.Context.ModelConfiguration;
@@ -6,6 +7,7 @@ using MBD.Identity.Domain.ValueObjects;
 
 namespace MBD.Identity.Infrastructure.Context
 {
+    [ExcludeFromCodeCoverageAttribute]
     public class IdentityContext : DbContext
     {
         public IdentityContext(MongoDbContextOptions options) : base(options)

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using MBD.Identity.Application.Interfaces;
 using MBD.Identity.Application.Services;
 using MBD.Identity.Domain.Interfaces.Repositories;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace MBD.Identity.API.Configuration
 {
+    [ExcludeFromCodeCoverageAttribute]
     public static class DependencyInjectionConfiguration
     {
         public static IServiceCollection AddDependencyInjection(this IServiceCollection services)

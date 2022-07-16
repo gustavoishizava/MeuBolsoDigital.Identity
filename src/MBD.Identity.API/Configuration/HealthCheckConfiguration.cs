@@ -1,9 +1,11 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MBD.Identity.API.Configuration
 {
+    [ExcludeFromCodeCoverageAttribute]
     public static class HealthCheckConfiguration
     {
         public static IServiceCollection AddHealthCheckConfiguration(this IServiceCollection services)

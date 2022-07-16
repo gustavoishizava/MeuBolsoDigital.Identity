@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Routing;
@@ -6,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace MBD.Identity.API.Configuration
 {
+    [ExcludeFromCodeCoverageAttribute]
     public static class ApiConfiguration
     {
         public static IServiceCollection AddApiConfiguration(this IServiceCollection services)

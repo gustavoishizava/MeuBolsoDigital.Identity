@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
@@ -5,6 +6,7 @@ using Swashbuckle.AspNetCore.Swagger;
 
 namespace MBD.Identity.API.Configuration
 {
+    [ExcludeFromCodeCoverageAttribute]
     public static class SwaggerConfiguration
     {
         public static IServiceCollection AddSwaggerConfiguration(this IServiceCollection services)

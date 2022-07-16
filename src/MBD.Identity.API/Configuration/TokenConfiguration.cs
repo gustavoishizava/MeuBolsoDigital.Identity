@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Threading.Tasks;
 using MBD.Identity.Domain.Configuration;
@@ -8,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace MBD.Identity.API.Configuration
 {
+    [ExcludeFromCodeCoverageAttribute]
     public static class TokenConfiguration
     {
         public static IServiceCollection AddJwtConfiguration(this IServiceCollection services, IConfiguration configuration)
@@ -46,7 +48,7 @@ namespace MBD.Identity.API.Configuration
                         return Task.CompletedTask;
                     }
                 };
-            });          
+            });
 
             return services;
         }
