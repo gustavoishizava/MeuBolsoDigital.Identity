@@ -41,6 +41,12 @@ namespace MBD.Identity.Infrastructure.Context
                     .SetElementName("normalized_address");
             });
 
+            modelBuilder.AddModelMap<StrongPassword>("strongPassword", map =>
+            {
+                map.MapProperty(x => x.PasswordHash)
+                    .SetElementName("hash");
+            });
+
             modelBuilder.AddModelMap<User>("users", map =>
             {
                 map.MapProperty(x => x.Name)
@@ -48,6 +54,9 @@ namespace MBD.Identity.Infrastructure.Context
 
                 map.MapProperty(x => x.Email)
                     .SetElementName("email");
+
+                map.MapProperty(x => x.Password)
+                    .SetElementName("password");
             });
         }
     }
