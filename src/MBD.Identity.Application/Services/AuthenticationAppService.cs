@@ -30,7 +30,7 @@ namespace MBD.Identity.Application.Services
         {
             var requestValidation = request.Validate();
             if (!requestValidation.IsValid)
-                return Result<AccessTokenResponse>.Success(requestValidation.ToString());
+                return Result<AccessTokenResponse>.Fail(requestValidation.ToString());
 
             return ValidateAndReturnAccessTokenResponse(await _authenticationService.AuthenticateByRefreshTokenAsync(request.RefreshToken));
         }
