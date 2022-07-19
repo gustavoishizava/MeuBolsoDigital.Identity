@@ -26,6 +26,7 @@ namespace MBD.Identity.Infrastructure.Services
                 Audience = audience,
                 Expires = expiresIn,
                 NotBefore = createdAt,
+                IssuedAt = createdAt,
                 Subject = new ClaimsIdentity(claims),
                 SigningCredentials = new SigningCredentials(_symmetricSecurityKey, SecurityAlgorithms.HmacSha256Signature)
             };
@@ -51,6 +52,8 @@ namespace MBD.Identity.Infrastructure.Services
                 ValidAudience = audience,
                 RequireSignedTokens = false,
                 IssuerSigningKey = _symmetricSecurityKey,
+                ValidateLifetime = true,
+                ClockSkew = TimeSpan.Zero
             });
 
             return result.IsValid;

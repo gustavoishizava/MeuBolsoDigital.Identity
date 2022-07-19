@@ -69,7 +69,7 @@ namespace MBD.Identity.Domain.Services
 
         private string GenerateEncodedJwt(User user, DateTime issuedAt, int expiresInSeconds)
         {
-            var expiresIn = issuedAt.AddSeconds(_jwtConfiguration.RefreshExpiresInSeconds);
+            var expiresIn = issuedAt.AddSeconds(expiresInSeconds);
             var claims = GenerateClaims(user.Id, user.Email.NormalizedAddress, issuedAt);
             var encodedJwt = _jwtService.Generate(_jwtConfiguration.Issuer, _jwtConfiguration.Audience, issuedAt, expiresIn, claims);
 

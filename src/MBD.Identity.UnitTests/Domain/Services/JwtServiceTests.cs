@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using Xunit;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
+using System.Threading.Tasks;
 
 namespace MBD.Identity.UnitTests.Domain.Services
 {
@@ -67,6 +68,26 @@ namespace MBD.Identity.UnitTests.Domain.Services
 
             // Act
             var isValid = _jwtService.IsValid(token, "Service2", "Test2");
+
+            // Assert
+            Assert.False(isValid);
+        }
+
+        [Fact]
+        public async Task ExpiredToken_Validate_ReturnFalse()
+        {
+            // Arrange
+            var issuer = "Service";
+            var audience = "Test";
+            var dateNow = DateTime.Now;
+            var expiresAt = dateNow.AddSeconds(1);
+
+            var token = _jwtService.Generate(issuer, audience, DateTime.Now, expiresAt, new List<Claim>());
+
+            await Task.Delay(1000);
+
+            // Act
+            var isValid = _jwtService.IsValid(token, issuer, audience);
 
             // Assert
             Assert.False(isValid);
