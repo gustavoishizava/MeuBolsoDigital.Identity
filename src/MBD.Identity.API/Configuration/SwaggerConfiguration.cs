@@ -5,7 +5,7 @@ using Microsoft.OpenApi.Models;
 
 namespace MBD.Identity.API.Configuration
 {
-    [ExcludeFromCodeCoverageAttribute]
+    [ExcludeFromCodeCoverage]
     public static class SwaggerConfiguration
     {
         public static IServiceCollection AddSwaggerConfiguration(this IServiceCollection services)

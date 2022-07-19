@@ -7,7 +7,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace MBD.Identity.API.Configuration
 {
-    [ExcludeFromCodeCoverageAttribute]
+    [ExcludeFromCodeCoverage]
     public static class ApiConfiguration
     {
         public static IServiceCollection AddApiConfiguration(this IServiceCollection services)

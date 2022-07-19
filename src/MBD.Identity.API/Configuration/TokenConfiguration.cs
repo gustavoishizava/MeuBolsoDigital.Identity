@@ -9,7 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace MBD.Identity.API.Configuration
 {
-    [ExcludeFromCodeCoverageAttribute]
+    [ExcludeFromCodeCoverage]
     public static class TokenConfiguration
     {
         public static IServiceCollection AddJwtConfiguration(this IServiceCollection services, IConfiguration configuration)

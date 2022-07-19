@@ -5,7 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace MBD.Identity.API.Configuration
 {
-    [ExcludeFromCodeCoverageAttribute]
+    [ExcludeFromCodeCoverage]
     public static class FluentValidationConfiguration
     {
         public static IServiceCollection AddFluentValidationConfiguration(this IServiceCollection services)

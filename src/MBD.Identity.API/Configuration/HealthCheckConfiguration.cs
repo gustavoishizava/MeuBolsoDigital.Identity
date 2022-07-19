@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace MBD.Identity.API.Configuration
 {
-    [ExcludeFromCodeCoverageAttribute]
+    [ExcludeFromCodeCoverage]
     public static class HealthCheckConfiguration
     {
         public static IServiceCollection AddHealthCheckConfiguration(this IServiceCollection services)

@@ -7,7 +7,7 @@ using MBD.Identity.Domain.ValueObjects;
 
 namespace MBD.Identity.Infrastructure.Context
 {
-    [ExcludeFromCodeCoverageAttribute]
+    [ExcludeFromCodeCoverage]
     public class IdentityContext : DbContext
     {
         public IdentityContext(MongoDbContextOptions options) : base(options)
