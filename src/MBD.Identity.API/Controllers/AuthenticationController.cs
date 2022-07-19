@@ -1,9 +1,9 @@
 using System.Net.Mime;
 using System.Threading.Tasks;
+using MBD.Identity.API.Models;
 using MBD.Identity.Application.Interfaces;
 using MBD.Identity.Application.Requests;
 using MBD.Identity.Application.Responses;
-using MeuBolsoDigital.Application.Utils.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -26,12 +26,12 @@ namespace MBD.Identity.API.Controllers
         [HttpPost("auth")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(AccessTokenResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(Result), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Authenticate([FromBody] AuthenticateRequest request)
         {
             var response = await _service.AuthenticateAsync(request);
             if (!response.Succeeded)
-                return BadRequest(response);
+                return BadRequest(new ErrorModel(response));
 
             return Ok(response.Data);
         }
@@ -39,12 +39,12 @@ namespace MBD.Identity.API.Controllers
         [HttpPost("refresh")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(AccessTokenResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(Result), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Refresh([FromBody] RefreshTokenRequest request)
         {
             var response = await _service.RefreshTokenAsync(request);
             if (!response.Succeeded)
-                return BadRequest(response);
+                return BadRequest(new ErrorModel(response));
 
             return Ok(response.Data);
         }

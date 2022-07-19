@@ -1,7 +1,6 @@
 using System.Reflection;
 using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
-using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using System.Diagnostics.CodeAnalysis;
 
 namespace MBD.Identity.API.Configuration
@@ -12,9 +11,10 @@ namespace MBD.Identity.API.Configuration
         public static IServiceCollection AddFluentValidationConfiguration(this IServiceCollection services)
         {
             services.AddFluentValidation(options =>
-                options.RegisterValidatorsFromAssembly(Assembly.Load("MBD.Identity.Application")));
-
-            services.AddFluentValidationRulesToSwagger();
+            {
+                options.RegisterValidatorsFromAssembly(Assembly.Load("MBD.Identity.Application"));
+                options.AutomaticValidationEnabled = false;
+            });
 
             return services;
         }

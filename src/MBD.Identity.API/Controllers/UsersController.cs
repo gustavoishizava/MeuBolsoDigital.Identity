@@ -1,8 +1,8 @@
 using System.Net.Mime;
 using System.Threading.Tasks;
+using MBD.Identity.API.Models;
 using MBD.Identity.Application.Interfaces;
 using MBD.Identity.Application.Requests;
-using MeuBolsoDigital.Application.Utils.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -24,13 +24,13 @@ namespace MBD.Identity.API.Controllers
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(Result), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status400BadRequest)]
         [AllowAnonymous]
         public async Task<IActionResult> Create(CreateUserRequest request)
         {
             var response = await _service.CreateAsync(request);
             if (!response.Succeeded)
-                return BadRequest(response);
+                return BadRequest(new ErrorModel(response));
 
             return NoContent();
         }
