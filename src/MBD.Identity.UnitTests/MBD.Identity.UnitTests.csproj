@@ -4,8 +4,8 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1"/>
-    <PackageReference Include="xunit" Version="2.4.1"/>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
+    <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
@@ -14,15 +14,16 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Moq" Version="4.16.1"/>
-    <PackageReference Include="Moq.AutoMock" Version="3.0.0-ci0170"/>
-    <PackageReference Include="Bogus" Version="33.0.2"/>
-    <PackageReference Include="coverlet.msbuild" Version="3.1.2"/>
-    <PackageReference Include="MeuBolsoDigital.Application.Utils" Version="1.0.2"/>
+    <PackageReference Include="Moq" Version="4.16.1" />
+    <PackageReference Include="Moq.AutoMock" Version="3.0.0-ci0170" />
+    <PackageReference Include="Bogus" Version="33.0.2" />
+    <PackageReference Include="coverlet.msbuild" Version="3.1.2" />
+    <PackageReference Include="MeuBolsoDigital.Application.Utils" Version="1.0.2" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MBD.Identity.Domain\MBD.Identity.Domain.csproj"/>
-    <ProjectReference Include="..\MBD.Identity.Infrastructure\MBD.Identity.Infrastructure.csproj"/>
-    <ProjectReference Include="..\MBD.Identity.Application\MBD.Identity.Application.csproj"/>
+    <ProjectReference Include="..\MBD.Identity.Domain\MBD.Identity.Domain.csproj" />
+    <ProjectReference Include="..\MBD.Identity.Infrastructure\MBD.Identity.Infrastructure.csproj" />
+    <ProjectReference Include="..\MBD.Identity.Application\MBD.Identity.Application.csproj" />
+    <ProjectReference Include="..\MBD.Identity.API\MBD.Identity.API.csproj" />
   </ItemGroup>
 </Project>
