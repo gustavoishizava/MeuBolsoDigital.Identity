@@ -18,7 +18,7 @@ namespace MBD.Identity.Infrastructure.Context
 
         protected override void OnModelConfiguring(ModelBuilder modelBuilder)
         {
-            modelBuilder.AddModelMap<BaseEntity>("baseEntity", map =>
+            modelBuilder.AddModelMap<BaseEntity>(map =>
             {
                 map.SetIsRootClass(true);
 
@@ -31,7 +31,7 @@ namespace MBD.Identity.Infrastructure.Context
                     .SetElementName("updated_at");
             });
 
-            modelBuilder.AddModelMap<Email>("email", map =>
+            modelBuilder.AddModelMap<Email>(map =>
             {
                 map.MapProperty(x => x.Address)
                     .SetElementName("address");
@@ -40,7 +40,7 @@ namespace MBD.Identity.Infrastructure.Context
                     .SetElementName("normalized_address");
             });
 
-            modelBuilder.AddModelMap<StrongPassword>("strongPassword", map =>
+            modelBuilder.AddModelMap<StrongPassword>(map =>
             {
                 map.MapProperty(x => x.PasswordHash)
                     .SetElementName("hash");

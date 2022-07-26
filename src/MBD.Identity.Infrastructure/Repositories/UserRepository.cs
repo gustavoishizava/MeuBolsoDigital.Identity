@@ -14,6 +14,7 @@ namespace MBD.Identity.Infrastructure.Repositories
         public UserRepository(IdentityContext context)
         {
             _context = context;
+            _context.Users.Collection.Indexes.CreateOneAsync(new CreateIndexModel<User>(Builders<User>.IndexKeys.Ascending(x => x.Email.NormalizedAddress))).GetAwaiter();
         }
 
         public async Task AddAsync(User user)
