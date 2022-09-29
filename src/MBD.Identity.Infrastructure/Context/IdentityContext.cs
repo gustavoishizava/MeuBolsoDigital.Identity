@@ -20,8 +20,6 @@ namespace MBD.Identity.Infrastructure.Context
         {
             modelBuilder.AddModelMap<BaseEntity>(map =>
             {
-                map.SetIsRootClass(true);
-
                 map.MapIdProperty(x => x.Id);
 
                 map.MapProperty(x => x.CreatedAt)
