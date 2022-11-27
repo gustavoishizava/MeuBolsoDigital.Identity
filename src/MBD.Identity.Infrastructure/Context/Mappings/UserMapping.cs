@@ -6,6 +6,10 @@ namespace MBD.Identity.Infrastructure.Context.Mappings
 {
     public sealed class UserMapping : BsonClassMapConfiguration
     {
+        public UserMapping() : base("users")
+        {
+        }
+
         public override BsonClassMap GetConfiguration()
         {
             var map = new BsonClassMap<User>();
