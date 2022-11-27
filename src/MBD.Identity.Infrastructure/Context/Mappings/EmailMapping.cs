@@ -1,9 +1,11 @@
+using System.Diagnostics.CodeAnalysis;
 using DotNet.MongoDB.Context.Mapping;
 using MBD.Identity.Domain.ValueObjects;
 using MongoDB.Bson.Serialization;
 
 namespace MBD.Identity.Infrastructure.Context.Mappings
 {
+    [ExcludeFromCodeCoverage]
     public sealed class EmailMapping : BsonClassMapConfiguration
     {
         public override BsonClassMap GetConfiguration()
